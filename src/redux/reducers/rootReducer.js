@@ -4,6 +4,7 @@ import { movieData } from "./movieDataReducer"
 
 
 const rootReducer = combineReducers({
+    //applying movieData to combineReducers
     movieData,
 })
 

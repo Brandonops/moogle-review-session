@@ -30,10 +30,12 @@ export default function MovieList() {
         setInputValue(event.target.value)
     }
 
+    // getting default movies
     const getDefaultMovies = () => {
-                axios.get(`http://www.omdbapi.com/?s=Matrix&apikey=697d4771`)
+                axios.get(`http://www.omdbapi.com/?s=Avengers&apikey=697d4771`)
                     .then((res) => res.data)
                     .then((data) => {
+                        console.log("api called")
                         return setMovieData(data.Search)
                     });
     };
