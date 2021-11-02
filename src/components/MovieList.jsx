@@ -1,5 +1,6 @@
 import axios from 'axios';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { Col, Row } from 'react-bootstrap';
 import MovieCard from './MovieCard'
 
 export default function MovieList() {
@@ -25,8 +26,22 @@ export default function MovieList() {
     
     // function created to set the state of inputValue to the value of the input
     const handleChange = (event) => {
+        console.log("component rerender")
         setInputValue(event.target.value)
     }
+
+    const getDefaultMovies = () => {
+                axios.get(`http://www.omdbapi.com/?s=Matrix&apikey=697d4771`)
+                    .then((res) => res.data)
+                    .then((data) => {
+                        return setMovieData(data.Search)
+                    });
+    };
+
+    
+    useEffect(() => {
+        getDefaultMovies()
+    },[])
 
 
     return (
@@ -39,13 +54,25 @@ export default function MovieList() {
                 {/* submit button to submit the form */}
                 <button type="submit">Search</button>
             </form>
-            <div>
 
-                {/* mapping through the movieData piece of state after we wait for data to be taken in  */}
+            <div className="movie-container">
+                <Row >
                 {movieData && movieData.map((movie, index) => {
-                    // returning a MovieCard component and passing through specific movie data as a prop. 
-                    return <MovieCard key={index} movie={movie} />
+                    return (
+                        <Col
+                        key={index}
+                        xs={12}
+                        sm={6}
+                        md={6}
+                        lg={6}
+                        xl={4}
+                        className="mb-6"
+                    >
+                        <MovieCard movie={movie} />
+                    </Col>
+                    )
                 })}
+                </Row>
             </div>
         </div>
     )
